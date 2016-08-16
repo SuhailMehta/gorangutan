@@ -1,2 +1,2 @@
 # gorangutan
-Go Web Framework
+Android / IOS push notification server written in GO
