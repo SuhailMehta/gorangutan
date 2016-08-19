@@ -1,19 +1,22 @@
 package main
 
 import (
-	// "github.com/justinas/alice"
+	// "github.com/garyburd/redigo/redis"
 	"log"
 	"net/http"
 )
 
 func main() {
 
-	// commonHandler := alice.New(loggingHandler, recoveryHandler)
+	client := NewRedisClient()
 
-	// myHandler := http.HandlerFunc(androidGCM)
-	// http.Handle("/android", commonHandler.Then(myHandler))
+	defer client.Close()
 
-	// http.ListenAndServe(":8080", nil)
+	// appC := DbController{conn: &client}
+
+	// c := &appC.conn
+
+	client.Do("SET", "best_car_ever", "Tesla Model S")
 
 	router := NewRouter()
 

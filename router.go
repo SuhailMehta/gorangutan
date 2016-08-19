@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gorilla/context"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -11,6 +12,7 @@ func NewRouter() *mux.Router {
 		var handler http.Handler
 		handler = route.HandlerFunc
 		handler = LoggingHandler(handler)
+		handler = context.ClearHandler(handler)
 
 		router.
 			Methods(route.Method).
