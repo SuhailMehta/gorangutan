@@ -26,8 +26,13 @@ func LoggingHandler(h http.Handler) http.Handler {
 	return handlers.LoggingHandler(logFile, h)
 }
 
-func AndroidGCM(rw http.ResponseWriter, req *http.Request) {
-	rw.Write([]byte("androidGCM"))
+func (client *DbController) AndroidGCM(rw http.ResponseWriter, req *http.Request) {
+	dbSession := *client.conn
+
+	dbSession.Do("SET", "suhail", "mehta")
+
+	rw.Write([]byte(dbSession.Do("GET", "suhail")))
+
 }
 
 // For future purpose

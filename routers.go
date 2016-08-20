@@ -1,6 +1,7 @@
 package main
 
 import (
+	// "github.com/garyburd/redigo/redis"
 	"net/http"
 )
 
@@ -11,14 +12,19 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
-type Routes []Route
+type routes []Route
 
-var routes = Routes{
+func (client *DbController) GetRoutes() []Route {
 
-	Route{
-		"android",
-		"GET",
-		"/android",
-		AndroidGCM,
-	},
+	var routes = routes{
+
+		Route{
+			"android",
+			"GET",
+			"/android",
+			client.AndroidGCM,
+		},
+	}
+
+	return routes
 }

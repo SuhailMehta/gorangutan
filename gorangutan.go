@@ -8,18 +8,20 @@ import (
 
 func main() {
 
-	client := NewRedisClient()
+	redisClient := NewRedisClient()
 
-	defer client.Close()
+	appC := DbController{conn: redisClient}
 
-	// appC := DbController{conn: &client}
+	c := *appC.conn
+
+	defer c.Close()
 
 	// c := &appC.conn
 
-	client.Do("SET", "best_car_ever", "Tesla Model S")
+	// client.Do("SET", "best_car_ever", "Tesla Model S")
 
-	router := NewRouter()
+	router := appC.NewRouter()
 
-	log.Fatal(http.ListenAndServe(":8088", router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 
 }
