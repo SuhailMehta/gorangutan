@@ -35,6 +35,15 @@ func (client *DbController) AndroidGCM(rw http.ResponseWriter, req *http.Request
 
 }
 
+func (client *DbController) RegisterDevice(rw http.ResponseWriter, req *http.Request) {
+	dbSession := *client.conn
+
+	dbSession.Do("SET", "suhail", "mehta")
+
+	rw.Write([]byte(dbSession.Do("GET", "suhail")))
+
+}
+
 // For future purpose
 func Logger(inner http.Handler, name string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

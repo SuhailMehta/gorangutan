@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "github.com/garyburd/redigo/redis"
 	"github.com/gorilla/context"
 	"github.com/gorilla/mux"
 	"net/http"

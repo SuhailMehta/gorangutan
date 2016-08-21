@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "github.com/garyburd/redigo/redis"
 	"net/http"
 )
 
@@ -17,12 +16,16 @@ type routes []Route
 func (client *DbController) GetRoutes() []Route {
 
 	var routes = routes{
-
 		Route{
 			"android",
 			"GET",
 			"/android",
 			client.AndroidGCM,
+		}, {
+			"Registration",
+			"POST",
+			"/register",
+			client.RegisterDevice,
 		},
 	}
 
