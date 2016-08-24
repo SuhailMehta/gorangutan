@@ -17,9 +17,9 @@ func (client *DbController) GetRoutes() []Route {
 
 	var routes = routes{
 		Route{
-			"android", "POST", "/androidPush", client.AndroidPushNotification,
+			"/androidPush/", "POST", "/androidPush/", client.AndroidPushNotification,
 		}, {
-			"register", "POST", "/register", client.RegisterDevice,
+			"/register/", "POST", "/register/", client.RegisterDevice,
 		},
 	}
 

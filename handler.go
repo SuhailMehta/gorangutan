@@ -33,10 +33,6 @@ func LogHandler(h http.Handler) http.Handler {
 	return handlers.LoggingHandler(logFile, h)
 }
 
-func MethodNotFound(rw http.ResponseWriter, req *http.Request) {
-	rw.WriteHeader(http.StatusMethodNotAllowed)
-}
-
 /*
 * POST request to send push notification to given deviceIds
 * device_ids = 1,2,3,4
