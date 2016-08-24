@@ -1,9 +1,9 @@
 package main
 
 import (
-	// "github.com/garyburd/redigo/redis"
 	"log"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -16,12 +16,16 @@ func main() {
 
 	defer c.Close()
 
-	// c := &appC.conn
-
-	// client.Do("SET", "best_car_ever", "Tesla Model S")
-
 	router := appC.NewRouter()
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	serve := &http.Server{
+		Addr:           ":8080",
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+		Handler:        LogHandler(router),
+	}
+
+	log.Fatal(serve.ListenAndServe())
 
 }

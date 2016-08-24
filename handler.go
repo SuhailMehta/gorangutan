@@ -18,7 +18,7 @@ func RecoveryHandler(h http.Handler) http.Handler {
 	return http.HandlerFunc(fn)
 }
 
-func LoggingHandler(h http.Handler) http.Handler {
+func LogHandler(h http.Handler) http.Handler {
 	logFile, err := os.OpenFile("server.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		panic(err)
@@ -26,21 +26,45 @@ func LoggingHandler(h http.Handler) http.Handler {
 	return handlers.LoggingHandler(logFile, h)
 }
 
+func MethodNotFound(rw http.ResponseWriter, req *http.Request) {
+
+	rw.WriteHeader(http.StatusMethodNotAllowed)
+
+}
+
 func (client *DbController) AndroidGCM(rw http.ResponseWriter, req *http.Request) {
 	dbSession := *client.conn
 
 	dbSession.Do("SET", "suhail", "mehta")
 
-	rw.Write([]byte(dbSession.Do("GET", "suhail")))
+	rw.Write([]byte("android"))
 
 }
 
+/*
+ *Register device token to client specific registration token
+ */
 func (client *DbController) RegisterDevice(rw http.ResponseWriter, req *http.Request) {
 	dbSession := *client.conn
 
-	dbSession.Do("SET", "suhail", "mehta")
+	header := req.Header.Get("device-id")
 
-	rw.Write([]byte(dbSession.Do("GET", "suhail")))
+	if header == "" {
+		rw.WriteHeader(http.StatusForbidden)
+		return
+	}
+
+	registrationId := req.FormValue("registration_id")
+
+	if registrationId == "" {
+		rw.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	dbSession.Do("SET", header, registrationId)
+
+	rw.WriteHeader(http.StatusCreated)
+	rw.Write([]byte(header))
 
 }
 
